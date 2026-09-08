@@ -1,0 +1,80 @@
+<!--
+  Единственный источник логотипа SVODKA.
+  Правки здесь → npm run prepare:stitch → везде (лендинг, логин, stitch).
+  React читает этот же файл через BrandLogo.
+-->
+<style>
+.brand-logo {
+  --brand-size: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: var(--brand-size);
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+}
+.brand-logo--sm { --brand-size: 20px; }
+.brand-logo--lg { --brand-size: 26px; }
+.brand-logo__mark {
+  width: var(--brand-size);
+  height: var(--brand-size);
+  flex-shrink: 0;
+  display: block;
+}
+.brand-logo__mark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.brand-logo__name {
+  font-family: Geist, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: calc(var(--brand-size) * 0.72);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  height: var(--brand-size);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transform: translateY(0.5px);
+}
+.brand-logo__ai {
+  width: var(--brand-size);
+  height: var(--brand-size);
+  border-radius: calc(var(--brand-size) * 0.28);
+  box-sizing: border-box;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-family: Geist, Inter, system-ui, sans-serif;
+  font-size: calc(var(--brand-size) * 0.45);
+  font-weight: 700;
+  line-height: 1;
+  color: #c7d2fe;
+  background: rgba(99, 102, 241, 0.2);
+  border: 1px solid rgba(129, 140, 248, 0.4);
+}
+.brand-logo__ver {
+  height: var(--brand-size);
+  min-width: var(--brand-size);
+  padding: 0 8px;
+  border-radius: calc(var(--brand-size) * 0.28);
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: calc(var(--brand-size) * 0.4);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #6ee7b7;
+  background: rgba(16, 185, 129, 0.14);
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  white-space: nowrap;
+}
+</style>
+<span class="brand-logo__mark" aria-hidden="true"><img src="/brand-mark.svg" alt=""></span><span class="brand-logo__name">SVODKA</span><span class="brand-logo__ai">AI</span><span class="brand-logo__ver">v1.0</span>
