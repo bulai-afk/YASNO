@@ -1,0 +1,6 @@
+node_modules/
+.qa/
+.env
+.env.*
+!.env.example
+.DS_Store
