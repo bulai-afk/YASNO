@@ -1,0 +1,1233 @@
+<!DOCTYPE html><html class="dark" lang="ru" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Настройка генерации отчёта | SVODKA AI</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            surface: "#121318",
+            "surface-dim": "#0d0e13",
+            "surface-container-lowest": "#0a0b0e",
+            "surface-container-low": "#161822",
+            "surface-container": "#1c1f2b",
+            "surface-container-high": "#242838",
+            "surface-container-highest": "#2e3448",
+            primary: "#818cf8",
+            "primary-container": "#6366f1",
+            secondary: "#38bdf8",
+            tertiary: "#10b981",
+            "tertiary-container": "#064e3b",
+            outline: "#64748b",
+            "outline-variant": "#334155",
+            "on-surface": "#f8fafc",
+            "on-surface-variant": "#94a3b8"
+          },
+          fontFamily: {
+            sans: ["Geist", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #0d0e13;
+        color: #f8fafc;
+      }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    .glow-indigo {
+      box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.25);
+    }
+    .glow-emerald {
+      box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.2);
+    }
+    .glass-card {
+      background: rgba(22, 24, 34, 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .glass-card-active {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(22, 24, 34, 0.85) 100%);
+      border: 1px solid rgba(129, 140, 248, 0.4);
+      box-shadow: 0 0 20px -3px rgba(99, 102, 241, 0.25);
+    }
+  </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link data-svodka-favicon rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link data-svodka-fonts rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link data-svodka-icons rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap">
+<style data-svodka-theme>
+  :root {
+    --sv-canvas: #0d0e13;
+    --sv-card: #121318;
+    --sv-elevated: #181a20;
+    --sv-border: rgba(255, 255, 255, 0.08);
+    --sv-brand: #6366f1;
+    --sv-text: #f1f5f9;
+    --sv-muted: #94a3b8;
+    --sv-font: "Geist", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --sv-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  html { color-scheme: dark; }
+  body {
+    font-family: var(--sv-font) !important;
+    background-color: var(--sv-canvas);
+    color: var(--sv-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  .font-sans, [class*="font-body"], [class*="font-headline"], [class*="font-display"], [class*="font-label"] {
+    font-family: var(--sv-font) !important;
+  }
+  .font-mono, [class*="font-mono"], [class*="mono-"] {
+    font-family: var(--sv-mono) !important;
+  }
+  .material-symbols-outlined {
+    font-family: "Material Symbols Outlined" !important;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 1.25em;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    font-feature-settings: "liga";
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: rgba(99, 102, 241, 0.35);
+    color: #fff;
+  }
+  a, button {
+    transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 120ms ease, opacity 160ms ease;
+  }
+  @keyframes svodka-fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  html.svodka-in-shell main,
+  body > main,
+  .pl-64 > main {
+    animation: svodka-fade-in 280ms ease both;
+  }
+</style>
+<style data-svodka-brand-css>
+.brand-logo {
+  --brand-size: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: var(--brand-size);
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+}
+.brand-logo--sm { --brand-size: 20px; }
+.brand-logo--lg { --brand-size: 26px; }
+.brand-logo__mark {
+  width: var(--brand-size);
+  height: var(--brand-size);
+  flex-shrink: 0;
+  display: block;
+}
+.brand-logo__mark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.brand-logo__name {
+  font-family: Geist, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: calc(var(--brand-size) * 0.72);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  height: var(--brand-size);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transform: translateY(0.5px);
+}
+.brand-logo__ai {
+  width: var(--brand-size);
+  height: var(--brand-size);
+  border-radius: calc(var(--brand-size) * 0.28);
+  box-sizing: border-box;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-family: Geist, Inter, system-ui, sans-serif;
+  font-size: calc(var(--brand-size) * 0.45);
+  font-weight: 700;
+  line-height: 1;
+  color: #c7d2fe;
+  background: rgba(99, 102, 241, 0.2);
+  border: 1px solid rgba(129, 140, 248, 0.4);
+}
+.brand-logo__ver {
+  height: var(--brand-size);
+  min-width: var(--brand-size);
+  padding: 0 8px;
+  border-radius: calc(var(--brand-size) * 0.28);
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: calc(var(--brand-size) * 0.4);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #6ee7b7;
+  background: rgba(16, 185, 129, 0.14);
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  white-space: nowrap;
+}
+</style>
+</head>
+<body class="bg-[#0d0e13] font-sans antialiased text-[#f8fafc] min-h-screen">
+<!-- LEFT SIDEBAR -->
+<aside class="fixed left-0 top-0 h-full w-72 bg-[#121318]/95 backdrop-blur-2xl border-r border-white/10 z-50 flex flex-col justify-between overflow-y-auto">
+<div class="flex flex-col">
+<!-- Logo & System Tag -->
+<div class="px-5 pt-5 pb-4 flex items-center justify-between border-b border-white/5">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+<span class="material-symbols-outlined text-white text-xl">analytics</span>
+</div>
+<div>
+<div class="font-semibold text-base text-white tracking-tight flex items-center gap-1.5">
+<span class="">SVODKA AI</span>
+</div>
+<div class="font-mono text-[10px] text-slate-400 tracking-wider uppercase">Enterprise Neural BI</div>
+</div>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 font-mono text-[10px] text-indigo-400 font-medium">v2.4</span>
+</div>
+<!-- Project Switcher -->
+<div class="p-3">
+<button class="w-full flex items-center justify-between p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/5 text-left transition-all group" type="button">
+<div class="min-w-0 flex-1">
+<div class="font-mono text-[10px] text-slate-400 uppercase tracking-wider truncate">Проект</div>
+<div class="font-medium text-sm text-slate-100 truncate group-hover:text-white transition-colors">ООО "БелТрейд"</div>
+<div class="font-mono text-xs text-slate-400 truncate">minsk-auto.by</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-slate-200 transition-colors text-lg">unfold_more</span>
+</button>
+</div>
+<!-- Navigation Links -->
+<nav class="px-3 space-y-1 mt-1">
+<a class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all font-medium text-sm" data-path="dashboard" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg text-slate-400">dashboard</span>
+<span class="">Дашборд</span>
+</div>
+</a>
+<a aria-current="page" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-indigo-600/15 border border-indigo-500/30 text-indigo-300 font-medium text-sm shadow-sm" data-path="reports" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg text-indigo-400">description</span>
+<span class="">Отчёты</span>
+</div>
+<span class="inline-flex items-center justify-center px-2 py-0.5 rounded-full bg-indigo-500/20 font-mono text-xs font-semibold text-indigo-300">14</span>
+</a>
+<a class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all font-medium text-sm" data-path="integrations" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg text-slate-400">hub</span>
+<span class="">Интеграции</span>
+</div>
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 font-mono text-[11px] text-emerald-400">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>3 акт.
+          </span>
+</a>
+<a class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all font-medium text-sm" data-path="tariffs-and-billing" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg text-slate-400">account_balance_wallet</span>
+<span class="">Тарифы &amp; Биллинг</span>
+</div>
+<span class="font-mono text-xs text-slate-400">BYN</span>
+</a>
+<a class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all font-medium text-sm" data-path="settings" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg text-slate-400">settings</span>
+<span class="">Настройки</span>
+</div>
+</a>
+<div class="pt-2 border-t border-white/5">
+<a class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-white/[0.04] transition-all font-medium text-xs" data-path="admin" href="#">
+<span class="material-symbols-outlined text-base">admin_panel_settings</span>
+<span class="">Админка</span>
+</a>
+</div>
+</nav>
+</div>
+<!-- Bottom Account & Plan Info -->
+<div class="p-3.5 flex flex-col gap-3 border-t border-white/5 bg-[#10121a]/80">
+<div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/5">
+<div class="flex items-start justify-between">
+<div>
+<div class="font-mono text-[10px] text-slate-400 uppercase tracking-wider">Текущий план</div>
+<div class="font-semibold text-sm text-slate-100">Тариф Про</div>
+</div>
+<span class="font-mono text-xs text-indigo-400 font-semibold">99 BYN/м</span>
+</div>
+<div class="mt-3">
+<div class="flex justify-between items-center mb-1.5">
+<span class="text-xs text-slate-400">Отчёты периода</span>
+<span class="font-mono text-xs text-slate-200 font-medium">14 / 20</span>
+</div>
+<div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full" style="width: 70%;"></div>
+</div>
+</div>
+<div class="mt-3">
+<button class="w-full py-1.5 px-3 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/25 text-indigo-300 font-medium text-xs transition-colors text-center" type="button">
+            Обновить план
+          </button>
+</div>
+</div>
+<!-- User Profile -->
+<div class="flex items-center justify-between px-1.5 pt-1">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative">
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-violet-600 flex items-center justify-center font-medium text-xs text-white">АВ</div>
+<span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-[#121318]"></span>
+</div>
+<div class="min-w-0">
+<div class="text-xs text-slate-100 font-medium truncate">Алёна Василевская</div>
+<div class="font-mono text-[10px] text-slate-400 truncate">Маркетинг-лид</div>
+</div>
+</div>
+<button class="p-1 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors" type="button">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- MAIN WRAPPER -->
+<div class="pl-72">
+<!-- TOP HEADER -->
+<header class="fixed top-0 left-72 right-0 h-16 bg-[#121318]/80 backdrop-blur-2xl border-b border-white/10 z-40 flex items-center justify-between px-8">
+<div class="flex items-center gap-4">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+<span class="font-mono text-[11px] text-emerald-300 uppercase tracking-wider font-semibold">Синхронизация Яндекс</span>
+</div>
+<div class="hidden md:flex items-center gap-1.5 text-slate-400 font-mono text-xs">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="">Обновлено: 12:40 BYT</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-slate-400 text-lg">search</span>
+<input class="w-64 pl-9 pr-12 py-1.5 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-slate-200 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500" placeholder="Поиск метрик..." type="text">
+<kbd class="absolute right-2.5 font-mono text-[10px] text-slate-400 bg-white/5 border border-white/10 px-1.5 py-0.5 rounded">⌘K</kbd>
+</div>
+<button class="relative p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/5 text-slate-300 hover:text-white transition-colors" type="button">
+<span class="material-symbols-outlined text-xl">notifications</span>
+<span class="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+</button>
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-sky-400 flex items-center justify-center text-xs font-semibold text-white border border-white/20">
+          АВ
+        </div>
+</div>
+</header>
+<!-- CONTENT BODY -->
+<main class="w-full pt-16 min-h-screen bg-[#0d0e13]">
+<div class="relative w-full max-w-[1400px] mx-auto px-8 py-8">
+<!-- Ambient Glowing Orbs -->
+<div class="pointer-events-none absolute -top-10 left-1/4 w-[500px] h-[500px] bg-indigo-600/10 blur-[130px] rounded-full"></div>
+<div class="pointer-events-none absolute top-1/2 right-8 w-[420px] h-[420px] bg-sky-500/10 blur-[140px] rounded-full"></div>
+<!-- Breadcrumb & Header Context -->
+<div class="flex flex-col gap-2 mb-8 relative z-10">
+<nav class="flex items-center gap-2 font-mono text-xs text-slate-400 uppercase tracking-wider">
+<a class="hover:text-slate-200 transition-colors" href="#">Аналитика</a>
+<span class="text-slate-600">/</span>
+<a class="hover:text-slate-200 transition-colors" href="#">Отчёты</a>
+<span class="text-slate-600">/</span>
+<span class="text-slate-400">Новый отчёт</span>
+<span class="text-slate-600">/</span>
+<span class="text-indigo-400 font-semibold">Параметры синтеза</span>
+</nav>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pt-1">
+<div>
+<div class="flex items-center gap-3 mb-1.5">
+<h1 class="text-3xl font-bold tracking-tight text-white">Настройка генерации отчёта</h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 font-mono text-[11px] font-medium"><span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping"></span>
+                  ШАГ 02/03
+                </span>
+</div>
+<p class="text-sm text-slate-400 max-w-2xl leading-relaxed">
+                Выберите целевой шаблон, сконфигурируйте таймфрейм и глубину нейросетевого пайплайна для формирования глубокого сквозного среза.
+              </p>
+</div>
+<!-- Status Pill -->
+<div class="flex items-center gap-3 px-4 py-2 rounded-xl glass-card">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+<span class="font-mono text-xs text-slate-200 uppercase font-medium">Коннекторы стабильны</span>
+</div>
+<span class="font-mono text-xs text-slate-400 border-l border-white/10 pl-3">ping 18ms</span>
+</div>
+</div>
+</div>
+<!-- 2-COLUMN LAYOUT -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
+<!-- LEFT COLUMN: STEPS -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- STEP 1: REPORT TYPE SELECTOR (New Core Requirement from SCREEN_6) -->
+<div class="glass-card rounded-2xl p-5 relative overflow-hidden border border-indigo-500/20 bg-gradient-to-r from-indigo-500/[0.04] via-transparent to-sky-500/[0.04]"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 mb-3.5 border-b border-white/10"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400"><span class="material-symbols-outlined text-lg">language</span></div><div><div class="flex items-center gap-2"><h2 class="text-sm font-semibold text-white">Целевой сайт клиента: ООО «БелТрейд»</h2><span class="font-mono text-[10px] px-2 py-0.5 rounded bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-medium whitespace-nowrap">Мульти-доменный проект</span></div><p class="text-xs text-slate-400 mt-0.5">Коннекторы Метрики, Директа и Вебмастера автоматически фильтруются под выбранный домен</p></div></div><div class="font-mono text-[11px] text-slate-400 whitespace-nowrap bg-white/[0.03] px-2.5 py-1 rounded-lg border border-white/5">3 сайта привязано</div></div><div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5"><button type="button" class="flex items-center justify-between p-3 rounded-xl bg-indigo-500/15 border border-indigo-500/40 text-left transition-all shadow-[0_0_15px_rgba(99,102,241,0.12)] group"><div class="min-w-0 flex-1"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span class="text-xs font-semibold text-white truncate group-hover:text-indigo-200 transition-colors">minsk-auto.by</span></div><div class="text-[11px] text-indigo-300 truncate mt-0.5">Автомобили • Основной</div></div><span class="material-symbols-outlined text-indigo-400 text-lg ml-2">check_circle</span></button><button type="button" class="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] hover:bg-white/[0.05] border border-white/5 hover:border-white/10 text-left transition-all group"><div class="min-w-0 flex-1"><div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span><span class="text-xs font-medium text-slate-300 truncate group-hover:text-white transition-colors">parts-minsk.by</span></div><div class="text-[11px] text-slate-400 truncate mt-0.5">Запчасти • Каталог</div></div><span class="font-mono text-[10px] text-slate-400 px-1.5 py-0.5 rounded bg-white/5 border border-white/5 whitespace-nowrap ml-1">ID: 95104</span></button><button type="button" class="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] hover:bg-white/[0.05] border border-white/5 hover:border-white/10 text-left transition-all group"><div class="min-w-0 flex-1"><div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span><span class="text-xs font-medium text-slate-300 truncate group-hover:text-white transition-colors">service-beltrade.by</span></div><div class="text-[11px] text-slate-400 truncate mt-0.5">СТО и сервис</div></div><span class="font-mono text-[10px] text-slate-400 px-1.5 py-0.5 rounded bg-white/5 border border-white/5 whitespace-nowrap ml-1">ID: 96328</span></button></div></div><section class="glass-card rounded-2xl p-6 relative overflow-hidden">
+<div class="flex items-center justify-between pb-4 mb-5 border-b border-white/10">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+<span class="material-symbols-outlined text-lg">category</span>
+</div>
+<div>
+<h2 class="text-base font-semibold text-white">1. Тип аналитического отчёта</h2>
+<p class="text-xs text-slate-400">Выберите готовый сценарий аудита из библиотеки отчётов</p>
+</div>
+</div>
+<span class="font-mono text-xs text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-1 rounded-full font-medium">5 шаблонов доступно</span>
+</div>
+<!-- Grid of 5 Report Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+<!-- Card 1: SELECTED / ACTIVE -->
+<div class="glass-card-active rounded-xl p-4 cursor-pointer relative transition-all group md:col-span-2">
+<div class="flex items-start justify-between gap-2 mb-2">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-md bg-indigo-500 flex items-center justify-center text-white text-sm shadow-md">
+<span class="material-symbols-outlined text-base">check</span>
+</div>
+<h3 class="text-sm font-semibold text-white group-hover:text-indigo-200 transition-colors">Сводный аудит маркетинга (Полный сквозной цикл)</h3>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 font-mono text-[10px] text-emerald-300 font-semibold">
+                      РЕКОМЕНДУЕТСЯ
+                    </span>
+</div>
+<div class="flex flex-wrap gap-1.5 mb-2">
+<span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 font-mono text-[10px] text-slate-300">Метрика</span>
+<span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 font-mono text-[10px] text-slate-300">Директ</span>
+<span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 font-mono text-[10px] text-slate-300">Вебмастер</span>
+</div>
+<p class="text-xs text-slate-300 leading-relaxed mb-3">
+                    Сквозная связка кликов Директа с конверсиями Метрики, чистка нецелевых запросов, аудит посадочных страниц и индексации.
+                  </p>
+<div class="flex items-center justify-between pt-2.5 border-t border-indigo-500/20 font-mono text-xs">
+<span class="text-indigo-300 flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">bolt</span>~45 сек генерация</span>
+<span class="text-slate-400">Списание: 1 генерация</span>
+</div>
+</div>
+<!-- Card 2: Еженедельный срез Директа -->
+<div class="glass-card rounded-xl p-4 cursor-pointer hover:border-indigo-500/30 hover:bg-white/[0.04] transition-all group">
+<div class="flex items-start justify-between gap-2 mb-2">
+<h3 class="text-sm font-semibold text-slate-100 group-hover:text-indigo-300 transition-colors">Еженедельный срез Директа</h3>
+<span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 font-mono text-[10px] text-sky-400">Яндекс Директ</span>
+</div>
+<p class="text-xs text-slate-400 leading-relaxed mb-3 min-h-[38px]">
+                    Экспресс-мониторинг слива бюджета в ночное время и РСЯ, контроль автостратегий и CPO по фразам.
+                  </p>
+<div class="flex items-center justify-between pt-2 border-t border-white/5 font-mono text-[11px] text-slate-400">
+<span class="">~20 сек</span>
+<span class="">1 генерация</span>
+</div>
+</div>
+<!-- Card 3: Аудит поисковой видимости -->
+<div class="glass-card rounded-xl p-4 cursor-pointer hover:border-indigo-500/30 hover:bg-white/[0.04] transition-all group">
+<div class="flex items-start justify-between gap-2 mb-2">
+<h3 class="text-sm font-semibold text-slate-100 group-hover:text-indigo-300 transition-colors">Аудит видимости и ошибок</h3>
+<span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 font-mono text-[10px] text-violet-400">Вебмастер</span>
+</div>
+<p class="text-xs text-slate-400 leading-relaxed mb-3 min-h-[38px]">
+                    Технический аудит индексации, задержки ответа сервера (TTFB &gt; 1.5s), Core Web Vitals и 404 URL.
+                  </p>
+<div class="flex items-center justify-between pt-2 border-t border-white/5 font-mono text-[11px] text-slate-400">
+<span class="">~25 сек</span>
+<span class="">1 генерация</span>
+</div>
+</div>
+<!-- Card 4: Ежемесячный сквозной отчёт -->
+<div class="glass-card rounded-xl p-4 cursor-pointer hover:border-indigo-500/30 hover:bg-white/[0.04] transition-all group">
+<div class="flex items-start justify-between gap-2 mb-2">
+<h3 class="text-sm font-semibold text-slate-100 group-hover:text-indigo-300 transition-colors">Октябрьский сквозной срез</h3>
+<span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 font-mono text-[10px] text-indigo-400">Метрика + Директ</span>
+</div>
+<p class="text-xs text-slate-400 leading-relaxed mb-3 min-h-[38px]">
+                    Итоговый финансовый срез за закрытый календарный месяц: CPA, расход, CPO, многоканальные цепочки.
+                  </p>
+<div class="flex items-center justify-between pt-2 border-t border-white/5 font-mono text-[11px] text-slate-400">
+<span class="">~40 сек</span>
+<span class="">1 генерация</span>
+</div>
+</div>
+<!-- Card 5: Новый экспресс-аудит -->
+<div class="glass-card rounded-xl p-4 cursor-pointer hover:border-indigo-500/30 hover:bg-white/[0.04] transition-all group">
+<div class="flex items-start justify-between gap-2 mb-2">
+<h3 class="text-sm font-semibold text-slate-100 group-hover:text-indigo-300 transition-colors">Новый экспресс-аудит (7д)</h3>
+<span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/25 font-mono text-[10px] text-emerald-400">Быстрый ИИ</span>
+</div>
+<p class="text-xs text-slate-400 leading-relaxed mb-3 min-h-[38px]">
+                    Моментальный поиск аномалий, скачков отказов и перерасхода бюджета за последние 7 дней.
+                  </p>
+<div class="flex items-center justify-between pt-2 border-t border-white/5 font-mono text-[11px] text-slate-400">
+<span class="">~15 сек</span>
+<span class="text-emerald-400">0.5 квоты</span>
+</div>
+</div>
+</div>
+</section>
+<!-- STEP 2: TIME HORIZON & BENCHMARK -->
+<section class="glass-card rounded-2xl p-6 relative overflow-hidden">
+<div class="flex items-center justify-between pb-4 mb-5 border-b border-white/10">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-400">
+<span class="material-symbols-outlined text-lg">calendar_month</span>
+</div>
+<div>
+<h2 class="text-base font-semibold text-white">2. Период и таймфрейм анализа</h2>
+<p class="text-xs text-slate-400">Интервал выборки аналитических логов и данных веб-аналитики</p>
+</div>
+</div>
+<span class="font-mono text-xs text-slate-400 uppercase tracking-wider">TIMEZONE: UTC+3 (MINSK)</span>
+</div>
+<!-- Presets Pills -->
+<div class="flex flex-wrap gap-2 mb-5">
+<button class="px-3.5 py-1.5 rounded-xl text-xs font-medium text-slate-400 bg-white/[0.03] hover:bg-white/[0.08] hover:text-white border border-white/5 transition-all" type="button">
+                  7 дней
+                </button>
+<button class="px-3.5 py-1.5 rounded-xl text-xs font-medium text-slate-400 bg-white/[0.03] hover:bg-white/[0.08] hover:text-white border border-white/5 transition-all" type="button">
+                  14 дней
+                </button>
+<!-- Active Pill (Indigo glow) -->
+<button class="px-4 py-1.5 rounded-xl text-xs font-medium text-white bg-indigo-600 border border-indigo-400 shadow-md shadow-indigo-600/30 flex items-center gap-2" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse"></span>
+                  Ноябрь 2024 (Текущий месяц)
+                </button>
+<button class="px-3.5 py-1.5 rounded-xl text-xs font-medium text-slate-400 bg-white/[0.03] hover:bg-white/[0.08] hover:text-white border border-white/5 transition-all" type="button">
+                  Квартал Q3
+                </button>
+<button class="px-3.5 py-1.5 rounded-xl text-xs font-medium text-slate-300 bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-all flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-sm text-indigo-400">date_range</span>
+<span class="">01.11.2024 — 30.11.2024</span>
+</button>
+</div>
+<!-- Comparison Toggle -->
+<div class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-colors">
+<div class="flex items-center gap-3.5">
+<div class="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+<span class="material-symbols-outlined text-xl">compare_arrows</span>
+</div>
+<div>
+<div class="text-sm font-medium text-white">Сравнить с предыдущим периодом (Октябрь 2024)</div>
+<div class="text-xs text-slate-400 mt-0.5">Генерация дельта-метрик по CPA, конверсиям, CPO и аномалиям отказов</div>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox">
+<div class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+</label>
+</div>
+</section>
+<!-- STEP 3: CONNECTED DATA SOURCES & ENTITIES -->
+<section class="glass-card rounded-2xl p-6 relative overflow-hidden">
+<div class="flex items-center justify-between pb-4 mb-5 border-b border-white/10">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+<span class="material-symbols-outlined text-lg">account_tree</span>
+</div>
+<div>
+<h2 class="text-base font-semibold text-white">3. Источники данных и сущности (Коннекторы)</h2>
+<p class="text-xs text-slate-400">Выбор рекламных срезов, целей Метрики и страниц Вебмастера</p>
+</div>
+</div>
+<span class="font-mono text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full font-medium">3 активных коннектора</span>
+</div>
+<div class="space-y-4"><!-- Source 1: Yandex Metrika tied to minsk-auto.by --><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><div class="flex items-start justify-between flex-wrap gap-2 mb-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400"><span class="material-symbols-outlined text-lg">insights</span></div><div><div class="flex items-center gap-2"><span class="text-sm font-semibold text-white whitespace-nowrap">Яндекс Метрика</span><span class="font-mono text-[10px] px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-slate-300 whitespace-nowrap">Счётчик minsk-auto.by</span><span class="font-mono text-[10px] px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 whitespace-nowrap">ID: 94821033</span></div><div class="text-xs text-slate-400 mt-0.5">Счётчик: <span class="text-slate-200 font-medium font-mono">minsk-auto.by (ID: 94821033)</span> • Другие сайты клиента имеют отдельные счётчики</div></div></div><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 font-mono text-[11px] text-emerald-300 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span><span class="whitespace-nowrap">Данные валидны: 68,400 визитов</span></div></div><div class="pt-2 border-t border-white/5"><div class="flex items-center justify-between mb-2"><div class="font-mono text-[10px] text-slate-400 uppercase tracking-wider">Цели конверсий счётчика minsk-auto.by (94821033)</div><span class="font-mono text-[10px] text-slate-400">4 из 4 выбраны</span></div><div class="grid grid-cols-2 sm:grid-cols-4 gap-2"><label class="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] hover:bg-white/[0.05] cursor-pointer transition-colors border border-white/5"><input checked="" class="w-3.5 h-3.5 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0 focus:ring-offset-0" type="checkbox"><span class="text-xs text-slate-200 truncate whitespace-nowrap">Заявка (minsk-auto)</span></label><label class="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] hover:bg-white/[0.05] cursor-pointer transition-colors border border-white/5"><input checked="" class="w-3.5 h-3.5 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0 focus:ring-offset-0" type="checkbox"><span class="text-xs text-slate-200 truncate whitespace-nowrap">Звонок / Номер</span></label><label class="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] hover:bg-white/[0.05] cursor-pointer transition-colors border border-white/5"><input checked="" class="w-3.5 h-3.5 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0 focus:ring-offset-0" type="checkbox"><span class="text-xs text-slate-200 truncate whitespace-nowrap">Корзина / Расчёт</span></label><label class="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] hover:bg-white/[0.05] cursor-pointer transition-colors border border-white/5"><input checked="" class="w-3.5 h-3.5 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0 focus:ring-offset-0" type="checkbox"><span class="text-xs text-slate-200 truncate whitespace-nowrap">Быстрый заказ авто</span></label></div></div></div><!-- Source 2: Yandex Direct tied to minsk-auto.by --><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><div class="flex items-start justify-between flex-wrap gap-2 mb-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400"><span class="material-symbols-outlined text-lg">ads_click</span></div><div><div class="flex items-center gap-2"><span class="text-sm font-semibold text-white whitespace-nowrap">Яндекс Директ</span><span class="font-mono text-[10px] px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-slate-300 whitespace-nowrap">direct-agency@yandex.by</span></div><div class="text-xs text-slate-400 mt-0.5">Кампании, ведущие на целевой сайт: <span class="text-sky-300 font-mono font-medium">https://minsk-auto.by</span> • Расход: <span class="text-slate-100 font-semibold font-mono whitespace-nowrap">4,820 BYN</span></div></div></div><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 font-mono text-[11px] text-sky-300 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span><span class="whitespace-nowrap">Синхронизировано</span></div></div><div class="pt-2 border-t border-white/5"><div class="flex items-center justify-between mb-2"><div class="font-mono text-[10px] text-slate-400 uppercase tracking-wider">Кампании, ведущие на minsk-auto.by</div><span class="font-mono text-[11px] text-indigo-400 font-medium whitespace-nowrap">10 активных кампаний из подключенных аккаунтов</span></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-2"><div class="flex items-center justify-between p-2 px-3 rounded-lg bg-white/[0.02] border border-white/5"><label class="flex items-center gap-2 min-w-0 cursor-pointer"><input checked="" class="w-3.5 h-3.5 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0 focus:ring-offset-0" type="checkbox"><span class="text-xs text-slate-200 truncate">Поиск Минск • Автомобили в наличии</span></label><span class="font-mono text-[11px] text-slate-400 whitespace-nowrap ml-2">2,140 BYN</span></div><div class="flex items-center justify-between p-2 px-3 rounded-lg bg-white/[0.02] border border-white/5"><label class="flex items-center gap-2 min-w-0 cursor-pointer"><input checked="" class="w-3.5 h-3.5 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0 focus:ring-offset-0" type="checkbox"><span class="text-xs text-slate-200 truncate">РСЯ Ретаргетинг minsk-auto.by</span></label><span class="font-mono text-[11px] text-slate-400 whitespace-nowrap ml-2">1,120 BYN</span></div><div class="flex items-center justify-between p-2 px-3 rounded-lg bg-white/[0.02] border border-white/5"><label class="flex items-center gap-2 min-w-0 cursor-pointer"><input checked="" class="w-3.5 h-3.5 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0 focus:ring-offset-0" type="checkbox"><span class="text-xs text-slate-200 truncate">Мастер Кампаний (Авто с пробегом)</span></label><span class="font-mono text-[11px] text-slate-400 whitespace-nowrap ml-2">980 BYN</span></div><div class="flex items-center justify-between p-2 px-3 rounded-lg bg-white/[0.02] border border-white/5"><label class="flex items-center gap-2 min-w-0 cursor-pointer"><input checked="" class="w-3.5 h-3.5 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0 focus:ring-offset-0" type="checkbox"><span class="text-xs text-slate-200 truncate">Смарт-баннеры ТОП-модели Минск</span></label><span class="font-mono text-[11px] text-slate-400 whitespace-nowrap ml-2">580 BYN</span></div></div></div></div><!-- Source 3: Yandex Webmaster tied to minsk-auto.by --><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><div class="flex items-start justify-between flex-wrap gap-2 mb-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400"><span class="material-symbols-outlined text-lg">travel_explore</span></div><div><div class="flex items-center gap-2"><span class="text-sm font-semibold text-white whitespace-nowrap">Яндекс Вебмастер</span><span class="font-mono text-[10px] px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 whitespace-nowrap">Хост подтверждён</span></div><div class="text-xs text-slate-400 mt-0.5">Хост в Вебмастере: <span class="text-purple-300 font-mono font-medium">https://minsk-auto.by</span> (краулинг и доступность конкретно этого домена)</div></div></div><span class="font-mono text-xs text-slate-400 whitespace-nowrap bg-white/5 px-2 py-1 rounded border border-white/5">1,248 URL в поиске</span></div><div class="pt-2 border-t border-white/5 grid grid-cols-1 sm:grid-cols-3 gap-2"><label class="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] hover:bg-white/[0.05] cursor-pointer transition-colors border border-white/5"><input checked="" class="w-3.5 h-3.5 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0 focus:ring-offset-0" type="checkbox"><span class="text-xs text-slate-200 truncate whitespace-nowrap">Индексация &amp; CWV хоста</span></label><label class="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] hover:bg-white/[0.05] cursor-pointer transition-colors border border-white/5"><input checked="" class="w-3.5 h-3.5 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0 focus:ring-offset-0" type="checkbox"><span class="text-xs text-slate-200 truncate whitespace-nowrap">Поисковые запросы ТОП</span></label><label class="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] hover:bg-white/[0.05] cursor-pointer transition-colors border border-white/5"><input checked="" class="w-3.5 h-3.5 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0 focus:ring-offset-0" type="checkbox"><span class="text-xs text-slate-200 truncate whitespace-nowrap">Мониторинг 404 / TTFB домена</span></label></div></div></div>
+</section>
+<!-- STEP 4: AI SYNTHESIS DIRECTIVES -->
+<section class="glass-card rounded-2xl p-6 relative overflow-hidden">
+<div class="flex items-center justify-between pb-4 mb-5 border-b border-white/10">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400">
+<span class="material-symbols-outlined text-lg">psychology</span>
+</div>
+<div>
+<h2 class="text-base font-semibold text-white">4. Директивы и глубина ИИ-анализа (AI Directives)</h2>
+<p class="text-xs text-slate-400">Настройка алгоритмов поиска аномалий и сквозного сопоставления</p>
+</div>
+</div>
+<span class="font-mono text-xs text-purple-400 bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 rounded-full font-medium">Neural Pipeline v2.4</span>
+</div>
+<!-- Engine Card -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5 mb-4">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+<span class="material-symbols-outlined text-2xl">neurology</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold text-white">Deep Analysis v2.4</span>
+<span class="font-mono text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 uppercase font-semibold">Максимальная детализация</span>
+</div>
+<div class="text-xs text-slate-400 mt-0.5">Claude 3.5 Sonnet + локальный аналитический пайплайн SVODKA Engine</div>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-slate-300 transition-colors" type="button">
+                  Сменить модель
+                </button>
+</div>
+<!-- Directives Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+<!-- Directive 1 -->
+<label class="flex items-start gap-3 p-4 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] border border-white/5 hover:border-indigo-500/30 cursor-pointer transition-all">
+<input checked="" class="mt-0.5 w-4 h-4 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0 focus:ring-offset-0" type="checkbox">
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1 mb-1">
+<span class="text-xs font-semibold text-white truncate">Слив бюджета в ночные часы &amp; РСЯ</span>
+<span class="font-mono text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 uppercase font-medium">РЕКОМЕНДУЕТСЯ</span>
+</div>
+<p class="text-xs text-slate-400 leading-relaxed">
+                      Поиск площадок РСЯ с аномальным CTR и нулевой конверсией, кликфрод и нецелевые гео-сегменты.
+                    </p>
+</div>
+</label>
+<!-- Directive 2 -->
+<label class="flex items-start gap-3 p-4 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] border border-white/5 hover:border-indigo-500/30 cursor-pointer transition-all">
+<input checked="" class="mt-0.5 w-4 h-4 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0 focus:ring-offset-0" type="checkbox">
+<div class="flex-1 min-w-0">
+<div class="text-xs font-semibold text-white mb-1">Кросс-анализ связок (Директ → Метрика)</div>
+<p class="text-xs text-slate-400 leading-relaxed">
+                      Сопоставление конкретных ключевых фраз Директа с процентом отказов и глубиной на посадочных страницах.
+                    </p>
+</div>
+</label>
+<!-- Directive 3 -->
+<label class="flex items-start gap-3 p-4 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] border border-white/5 hover:border-indigo-500/30 cursor-pointer transition-all">
+<input checked="" class="mt-0.5 w-4 h-4 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0 focus:ring-offset-0" type="checkbox">
+<div class="flex-1 min-w-0">
+<div class="text-xs font-semibold text-white mb-1">Эффективность автостратегий &amp; CPO</div>
+<p class="text-xs text-slate-400 leading-relaxed">
+                      Оценка стабильности обучения смарт-стратегий, перерасхода лимитов и передачи ценности конверсий.
+                    </p>
+</div>
+</label>
+<!-- Directive 4 -->
+<label class="flex items-start gap-3 p-4 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] border border-white/5 hover:border-indigo-500/30 cursor-pointer transition-all">
+<input checked="" class="mt-0.5 w-4 h-4 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0 focus:ring-offset-0" type="checkbox">
+<div class="flex-1 min-w-0">
+<div class="text-xs font-semibold text-white mb-1">Технические узкие места и TTFB</div>
+<p class="text-xs text-slate-400 leading-relaxed">
+                      Анализ медленных страниц по данным Вебмастера, определение потерь мобильного трафика из-за скорости.
+                    </p>
+</div>
+</label>
+</div>
+</section>
+</div>
+<!-- RIGHT COLUMN: STICKY SUMMARY PANEL -->
+<div class="lg:col-span-4 lg:sticky lg:top-24 flex flex-col gap-4">
+<!-- MAIN SYNTHESIS CARD -->
+<div class="glass-card rounded-2xl p-6 relative overflow-hidden border border-white/10 shadow-2xl">
+<div class="pointer-events-none absolute -top-10 -right-10 w-44 h-44 bg-indigo-500/20 rounded-full blur-3xl"></div>
+<!-- Header -->
+<div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-indigo-400 text-xl">tune</span>
+<span class="font-semibold text-base text-white">Параметры синтеза</span>
+</div>
+<span class="font-mono text-xs text-slate-400 bg-white/5 px-2 py-0.5 rounded border border-white/5">ID: GEN-8291</span>
+</div>
+<!-- Metrics Stack -->
+<div class="space-y-3.5 mb-6">
+<!-- Selected Report Type -->
+<div class="p-3 rounded-xl bg-white/[0.03] border border-white/5"><div class="flex items-center justify-between pb-2 mb-2 border-b border-white/5"><div class="min-w-0"><div class="font-mono text-[10px] text-slate-400 uppercase tracking-wider">Целевой сайт клиента</div><div class="flex items-center gap-1.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span class="text-xs font-semibold text-white font-mono truncate">minsk-auto.by</span></div></div><span class="font-mono text-[9px] px-1.5 py-0.5 rounded bg-indigo-500/15 text-indigo-300 border border-indigo-500/25 uppercase font-medium whitespace-nowrap">Основной</span></div><div class="font-mono text-[10px] text-slate-400 uppercase tracking-wider">Выбранный сценарий</div><div class="text-sm font-semibold text-indigo-300 mt-0.5 truncate">Сводный аудит маркетинга</div><div class="text-xs text-slate-400">Полный сквозной цикл (3 источника)</div></div>
+<!-- Quota status -->
+<div class="p-3 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-between">
+<div>
+<div class="font-mono text-[10px] text-slate-400 uppercase tracking-wider">Списание квоты</div>
+<div class="text-sm font-bold text-white">1 генерация</div>
+</div>
+<div class="text-right">
+<div class="font-mono text-xs text-indigo-400 font-semibold">Останется: 5 из 20</div>
+<div class="text-[11px] text-slate-400">Тариф Про (БелТрейд)</div>
+</div>
+</div>
+<!-- Speed & Events Data -->
+<div class="grid grid-cols-2 gap-2">
+<div class="p-3 rounded-xl bg-white/[0.03] border border-white/5">
+<div class="font-mono text-[10px] text-slate-400 uppercase tracking-wider">Сборка</div>
+<div class="flex items-center gap-1 text-sm font-bold text-white mt-0.5">
+<span class="material-symbols-outlined text-amber-400 text-base">bolt</span>
+                      ~45 сек
+                    </div>
+<div class="font-mono text-[10px] text-slate-400 mt-0.5">Потоковый пайплайн</div>
+</div>
+<div class="p-3 rounded-xl bg-white/[0.03] border border-white/5">
+<div class="font-mono text-[10px] text-slate-400 uppercase tracking-wider">События</div>
+<div class="text-sm font-bold text-white mt-0.5">68.4k</div>
+<div class="font-mono text-[10px] text-slate-400 mt-0.5">Входных записей</div>
+</div>
+</div>
+<!-- Active Connectors Summary -->
+<div class="p-3 rounded-xl bg-white/[0.03] border border-white/5"><div class="font-mono text-[10px] text-slate-400 uppercase tracking-wider mb-1.5">Привязанные источники для minsk-auto.by</div><div class="flex flex-wrap gap-1.5"><span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 font-mono text-[10px] whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>Счётчик Метрики: 94821033</span><span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-sky-500/10 border border-sky-500/20 text-sky-300 font-mono text-[10px] whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>Директ: 10 кампаний</span><span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 font-mono text-[10px] whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Хост Вебмастера: minsk-auto.by</span></div></div>
+<!-- Deliverables Selector in Summary -->
+<div class="p-3 rounded-xl bg-white/[0.03] border border-white/5">
+<div class="font-mono text-[10px] text-slate-400 uppercase tracking-wider mb-2">Формат выгрузки результата</div>
+<div class="space-y-2">
+<label class="flex items-center justify-between text-xs text-slate-200 cursor-pointer">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-indigo-400">dashboard_customize</span>
+                        Интерактивный веб-дашборд
+                      </span>
+<input checked="" class="w-3.5 h-3.5 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0" type="checkbox">
+</label>
+<label class="flex items-center justify-between text-xs text-slate-200 cursor-pointer">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-sky-400">picture_as_pdf</span>
+                        Презентационный PDF-отчёт
+                      </span>
+<input checked="" class="w-3.5 h-3.5 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0" type="checkbox">
+</label>
+<label class="flex items-center justify-between text-xs text-slate-200 cursor-pointer">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-emerald-400">table_chart</span>
+                        Минус-слова (.csv / .xlsx)
+                      </span>
+<input checked="" class="w-3.5 h-3.5 rounded bg-slate-900 border-white/20 text-indigo-600 focus:ring-0" type="checkbox">
+</label>
+</div>
+</div>
+</div>
+<!-- Primary Launch CTA -->
+<div class="flex flex-col gap-2.5">
+<button class="relative w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white font-semibold text-sm transition-all shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 group overflow-hidden" type="button">
+<span class="material-symbols-outlined text-lg">auto_awesome</span>
+<span class="">Запустить генерацию отчёта</span>
+<span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="w-full py-2 px-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/5 text-slate-400 hover:text-slate-200 font-medium text-xs text-center flex items-center justify-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-base">bookmark_add</span>
+<span class="">Сохранить как шаблон генерации</span>
+</button>
+</div>
+<!-- Notice -->
+<div class="mt-4 pt-3.5 border-t border-white/5 flex items-start gap-2 text-slate-400 text-[11px] leading-relaxed">
+<span class="material-symbols-outlined text-xs text-indigo-400 mt-0.5">info</span>
+<span class="">После запуска процесс анализа аномалий выполняется в потоковом AI-пайплайне с отображением прогресса в реальном времени.</span>
+</div>
+</div>
+<!-- Security Badge -->
+<div class="glass-card rounded-xl p-3.5 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+<span class="material-symbols-outlined text-base">verified_user</span>
+</div>
+<div>
+<div class="text-xs font-medium text-slate-200">Безопасность API-токенов</div>
+<div class="font-mono text-[10px] text-slate-400">OAuth2 шифрование • БелГИЭ Compliant</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-base">lock</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+
+
+
+<script data-svodka-configure-cta>
+(function () {
+  var reportType = "full";
+  var selectedSite = "minsk-auto.by";
+  var period = null;
+  var requestCounter = 0;
+
+  function textOf(el) {
+    return (el && (el.innerText || el.textContent) || "").replace(/\s+/g, " ").trim();
+  }
+  function iso(date) {
+    return date.toISOString().slice(0, 10);
+  }
+  function addDays(date, amount) {
+    var next = new Date(date);
+    next.setUTCDate(next.getUTCDate() + amount);
+    return next;
+  }
+  function rangeFor(days) {
+    var end = new Date();
+    end = new Date(Date.UTC(end.getFullYear(), end.getMonth(), end.getDate() - 1, 12));
+    return { from: iso(addDays(end, -days + 1)), to: iso(end) };
+  }
+  function monthRange() {
+    var now = new Date();
+    var start = new Date(Date.UTC(now.getFullYear(), now.getMonth(), 1, 12));
+    var end = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() - 1, 12));
+    if (end < start) {
+      end = addDays(start, -1);
+      start = new Date(Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), 1, 12));
+    }
+    return { from: iso(start), to: iso(end) };
+  }
+  function quarterRange() {
+    var now = new Date();
+    var quarterStartMonth = Math.floor(now.getMonth() / 3) * 3;
+    var end = new Date(Date.UTC(now.getFullYear(), quarterStartMonth, 0, 12));
+    var start = new Date(Date.UTC(end.getUTCFullYear(), end.getUTCMonth() - 2, 1, 12));
+    return { from: iso(start), to: iso(end) };
+  }
+  function formatDay(value) {
+    var bits = value.split("-");
+    return bits[2] + "." + bits[1] + "." + bits[0];
+  }
+  function setStatus(message, tone) {
+    var notice = document.querySelector(".mt-4.pt-3\\.5.border-t");
+    if (!notice) return;
+    var node = notice.querySelector("[data-report-status]");
+    if (!node) {
+      node = document.createElement("div");
+      node.setAttribute("data-report-status", "");
+      node.className = "mt-2 font-mono text-[10px]";
+      notice.appendChild(node);
+    }
+    node.className =
+      "mt-2 font-mono text-[10px] " +
+      (tone === "error"
+        ? "text-rose-400"
+        : tone === "success"
+          ? "text-emerald-400"
+          : "text-indigo-300");
+    node.textContent = message || "";
+  }
+  function launchButton() {
+    return Array.from(document.querySelectorAll("button")).find(function (button) {
+      return /запустить генерацию отчёта/i.test(textOf(button));
+    });
+  }
+  function setBusy(busy) {
+    var button = launchButton();
+    if (!button) return;
+    button.disabled = busy;
+    button.style.opacity = busy ? "0.65" : "";
+    button.style.cursor = busy ? "wait" : "";
+  }
+  function reportCards() {
+    var heading = Array.from(document.querySelectorAll("h2")).find(function (node) {
+      return /тип аналитического отчёта/i.test(textOf(node));
+    });
+    var section = heading && heading.closest("section");
+    return section
+      ? Array.from(section.querySelectorAll("h3")).map(function (headingNode) {
+          return headingNode.closest("div.glass-card, div.glass-card-active");
+        }).filter(Boolean)
+      : [];
+  }
+  function siteButtons() {
+    return Array.from(document.querySelectorAll("button")).filter(function (button) {
+      return /\.[a-zа-я]{2,}(?:\s|$)/i.test(textOf(button)) &&
+        button.closest("main") &&
+        !/01\.\d{2}\.\d{4}/.test(textOf(button));
+    }).slice(0, 3);
+  }
+  function periodButtons() {
+    var heading = Array.from(document.querySelectorAll("h2")).find(function (node) {
+      return /период и таймфрейм/i.test(textOf(node));
+    });
+    var section = heading && heading.closest("section");
+    return section ? Array.from(section.querySelectorAll("button")).slice(0, 5) : [];
+  }
+  function activate(items, selected, activeClass, inactiveClass) {
+    items.forEach(function (item) {
+      item.className = item === selected ? activeClass : inactiveClass;
+    });
+  }
+  function selectedCheckboxTexts(container) {
+    if (!container) return [];
+    return Array.from(container.querySelectorAll("label")).filter(function (label) {
+      var input = label.querySelector("input[type='checkbox']");
+      return input && input.checked;
+    }).map(textOf).filter(Boolean);
+  }
+  function sectionByHeading(pattern) {
+    var heading = Array.from(document.querySelectorAll("h2")).find(function (node) {
+      return pattern.test(textOf(node));
+    });
+    return heading && heading.closest("section");
+  }
+  function collectConfiguration() {
+    var sourceSection = sectionByHeading(/источники данных/i);
+    var sourceBlocks = sourceSection
+      ? Array.from(sourceSection.querySelectorAll(":scope > div.space-y-4 > div"))
+      : [];
+    var goals = selectedCheckboxTexts(sourceBlocks[0]);
+    var campaigns = selectedCheckboxTexts(sourceBlocks[1]);
+    var webmasterEntities = selectedCheckboxTexts(sourceBlocks[2]);
+    var sources = [];
+    if (goals.length) sources.push("metrika");
+    if (campaigns.length) sources.push("direct");
+    if (webmasterEntities.length) sources.push("webmaster");
+    var directives = selectedCheckboxTexts(sectionByHeading(/директивы и глубина/i));
+    var summary = Array.from(document.querySelectorAll("div")).find(function (node) {
+      return textOf(node) === "Формат выгрузки результата";
+    });
+    var outputs = selectedCheckboxTexts(summary && summary.parentElement).map(function (label) {
+      if (/web/i.test(label)) return "web";
+      if (/pdf/i.test(label)) return "pdf";
+      return "csv";
+    });
+    return {
+      siteHost: selectedSite,
+      reportType: reportType,
+      period: period || monthRange(),
+      comparison: Boolean(document.querySelector("input[type='checkbox'].peer")?.checked),
+      sources: sources,
+      goals: goals,
+      directives: directives,
+      outputs: outputs
+    };
+  }
+  function updateSummary() {
+    var summarySite = Array.from(document.querySelectorAll("span")).find(function (node) {
+      return node.classList.contains("font-mono") && /\.[a-zа-я]{2,}$/i.test(textOf(node));
+    });
+    if (summarySite) summarySite.textContent = selectedSite;
+    var scenario = Array.from(document.querySelectorAll("div")).find(function (node) {
+      return textOf(node) === "Выбранный сценарий";
+    });
+    var scenarioTitle = scenario && scenario.parentElement &&
+      scenario.parentElement.querySelector(".text-sm.font-semibold");
+    var selectedCard = reportCards().find(function (card) {
+      return card.classList.contains("glass-card-active");
+    });
+    if (scenarioTitle && selectedCard) {
+      scenarioTitle.textContent = textOf(selectedCard.querySelector("h3"));
+    }
+  }
+  function setup() {
+    var cards = reportCards();
+    if (cards.length > 1) {
+      var activeCardClass = cards[0].className;
+      var inactiveCardClass = cards[1].className;
+      var typeMap = ["full", "direct-weekly", "webmaster-audit", "monthly", "express"];
+      cards.forEach(function (card, index) {
+        card.setAttribute("role", "button");
+        card.setAttribute("tabindex", "0");
+        card.addEventListener("click", function () {
+          reportType = typeMap[index] || "full";
+          activate(cards, card, activeCardClass, inactiveCardClass);
+          updateSummary();
+        });
+      });
+    }
+    var sites = siteButtons();
+    if (sites.length > 1) {
+      var activeSiteClass = sites[0].className;
+      var inactiveSiteClass = sites[1].className;
+      sites.forEach(function (button) {
+        button.addEventListener("click", function (event) {
+          event.preventDefault();
+          selectedSite = (textOf(button).match(/(?:https?:\/\/)?([a-z0-9а-я.-]+\.[a-zа-я]{2,})/i) || [])[1] || selectedSite;
+          activate(sites, button, activeSiteClass, inactiveSiteClass);
+          updateSummary();
+        });
+      });
+    }
+    var presets = periodButtons();
+    if (presets.length >= 4) {
+      var activePeriodClass = presets[2].className;
+      var inactivePeriodClass = presets[0].className;
+      var currentMonth = monthRange();
+      var previousQuarter = quarterRange();
+      presets[2].childNodes[presets[2].childNodes.length - 1].textContent =
+        " " + formatDay(currentMonth.from) + " — " + formatDay(currentMonth.to);
+      presets[3].textContent =
+        formatDay(previousQuarter.from) + " — " + formatDay(previousQuarter.to);
+      presets[4].querySelector("span:last-child").textContent =
+        formatDay(currentMonth.from) + " — " + formatDay(currentMonth.to);
+      period = currentMonth;
+      var ranges = [rangeFor(7), rangeFor(14), currentMonth, previousQuarter, currentMonth];
+      presets.forEach(function (button, index) {
+        button.addEventListener("click", function (event) {
+          event.preventDefault();
+          period = ranges[index] || currentMonth;
+          activate(presets.slice(0, 4), button, activePeriodClass, inactivePeriodClass);
+        });
+      });
+    }
+    updateSummary();
+  }
+
+  window.addEventListener("message", function (event) {
+    var data = event.data || {};
+    if (data.type === "svodka:configure:init" && data.project) {
+      var project = data.project;
+      var projectHeading = Array.from(document.querySelectorAll("h2")).find(function (node) {
+        return /целевой сайт клиента/i.test(textOf(node));
+      });
+      if (projectHeading) projectHeading.textContent = "Целевой сайт клиента: " + project.name;
+      var sites = siteButtons();
+      (project.sites || []).slice(0, sites.length).forEach(function (site, index) {
+        var nameNode = Array.from(sites[index].querySelectorAll("span")).find(function (node) {
+          return /\.[a-zа-я]{2,}/i.test(textOf(node));
+        });
+        if (nameNode) nameNode.textContent = site;
+      });
+      if (project.sites && project.sites[0]) selectedSite = project.sites[0];
+      if (data.defaultReportType === "express") {
+        var cards = reportCards();
+        if (cards[4]) cards[4].click();
+      }
+      updateSummary();
+    }
+    if (data.type === "svodka:configure:state") {
+      setBusy(data.state === "busy");
+      setStatus(data.message, data.state);
+    }
+  });
+
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest("button");
+    if (!btn) return;
+    var text = textOf(btn);
+    var isLaunch = /запустить генерацию отчёта/i.test(text);
+    var isTemplate = /сохранить как шаблон генерации/i.test(text);
+    if (!isLaunch && !isTemplate) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    var requestId = "configure-" + (++requestCounter);
+    setBusy(isLaunch);
+    setStatus(isLaunch ? "Создаём серверное задание…" : "Сохраняем шаблон…", "busy");
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({
+        type: isLaunch ? "svodka:report:create" : "svodka:report:template",
+        requestId: requestId,
+        name: "Шаблон · " + selectedSite,
+        configuration: collectConfiguration()
+      }, "*");
+    }
+  }, true);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setup);
+  } else {
+    setup();
+  }
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script data-svodka-bridge>
+(function () {
+  function textOf(el) {
+    return (el.innerText || el.textContent || el.getAttribute("aria-label") || "").replace(/\s+/g, " ").trim();
+  }
+
+  function resolveRoute(el) {
+    if (!el) return null;
+    // Не перехватывать закрытие/отмену модалок и чистые UI-тогглы
+    if (el.closest && el.closest("[data-svodka-no-nav]")) return null;
+    var onclick = String(el.getAttribute("onclick") || "");
+    if (/classList\.(add|remove|toggle)\(['"]hidden['"]\)/.test(onclick) && !/сформировать|запустить|генерац/i.test(textOf(el))) {
+      return null;
+    }
+    var text = textOf(el);
+    var href = (el.getAttribute && el.getAttribute("href")) || "";
+    // Якоря лендинга / внутристраничные ссылки не трогаем
+    if (href.charAt(0) === "#") return null;
+    var blob = (text + " " + href).toLowerCase();
+    if (href.startsWith("/") && !href.startsWith("//") && href.length > 1) {
+      if (href === "/reports/new" || href === "/reports/express") return "/reports/configure";
+      return href;
+    }
+    var rules = [{"re":"войти через яндекс","flags":"i","to":"/oauth/start"},{"re":"демо-доступ|демо вход|демо-доступ к проекту","flags":"i","to":"/dashboard"},{"re":"попробовать бесплатно","flags":"i","to":"/login"},{"re":"^войти$","flags":"i","to":"/login"},{"re":"сформировать экспресс|запустить экспресс|экспресс-аудит|экспресс аудит","flags":"i","to":"/reports/generating"},{"re":"запустить генерацию|сформировать отчёт|создать отчёт|новый отчёт|настройка генерации|настроить отчёт","flags":"i","to":"/reports/configure"},{"re":"формирован|идёт генерац|генерация отчёт","flags":"i","to":"/reports/generating"},{"re":"открыть отчёт|смотреть отчёт|скачать pdf|сквозн|полный отчёт|смотреть сводку","flags":"i","to":"/reports/demo"},{"re":"дашборд|главная|аналитическая сводка","flags":"i","to":"/dashboard"},{"re":"интеграц|источник данных|подключенн","flags":"i","to":"/integrations"},{"re":"все отчёт|список отчёт|библиотека отчёт|архив.*отчёт","flags":"i","to":"/reports"},{"re":"тариф|биллинг|подписк|выбрать план|увеличить","flags":"i","to":"/billing"},{"re":"настройк проекта","flags":"i","to":"/settings/project"},{"re":"настройк|профиль|безопасност","flags":"i","to":"/settings"},{"re":"админ","flags":"i","to":"/admin"},{"re":"оферт","flags":"i","to":"/offer"},{"re":"политик","flags":"i","to":"/privacy"}];
+    for (var i = 0; i < rules.length; i++) {
+      if (new RegExp(rules[i].re, rules[i].flags).test(blob)) return rules[i].to;
+    }
+    if (/^дашборд$/i.test(text)) return "/dashboard";
+    if (/^отчёты$/i.test(text) || /^отчеты$/i.test(text) || /^все отчёты$/i.test(text)) return "/reports";
+    if (/^интеграции$/i.test(text)) return "/integrations";
+    if (/^тарифы$/i.test(text) || /^биллинг$/i.test(text)) return "/billing";
+    if (/^настройки$/i.test(text)) return "/settings";
+    if (/^админ/i.test(text)) return "/admin";
+    if (/^сводка$/i.test(text)) return "/";
+    if (/^экспресс-отчёт$/i.test(text) || /^экспресс$/i.test(text)) return "/reports/configure";
+    return null;
+  }
+
+  function go(to) {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: "svodka:navigate", to: to }, "*");
+    } else {
+      window.location.href = to;
+    }
+  }
+
+  document.addEventListener(
+    "click",
+    function (e) {
+      var el = e.target.closest("a,button,[role='link'],[role='button']");
+      if (!el) return;
+      var to = resolveRoute(el);
+      if (!to) return;
+      e.preventDefault();
+      e.stopPropagation();
+      go(to);
+    },
+    true,
+  );
+})();
+</script>
+
+<style data-svodka-shell-style>
+html.svodka-in-shell aside.fixed,
+html.svodka-in-shell aside[class*="fixed"],
+html.svodka-in-shell aside[class*="w-64"],
+html.svodka-in-shell aside[class*="w-[16rem]"] {
+  display: none !important;
+}
+html.svodka-in-shell .ml-64,
+html.svodka-in-shell .ml-72,
+html.svodka-in-shell [class*="ml-64"],
+html.svodka-in-shell [class*="ml-72"],
+html.svodka-in-shell main.ml-64,
+html.svodka-in-shell div.ml-64 {
+  margin-left: 0 !important;
+}
+html.svodka-in-shell .pl-64,
+html.svodka-in-shell .pl-72,
+html.svodka-in-shell [class*="pl-64"],
+html.svodka-in-shell [class*="pl-72"] {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+html.svodka-in-shell body {
+  overflow: auto !important;
+  min-height: 100%;
+  background: #0d0e13 !important;
+}
+html.svodka-in-shell header.sticky.top-0.h-14,
+html.svodka-in-shell header.sticky.top-0.h-16,
+html.svodka-in-shell header.fixed.top-0,
+html.svodka-in-shell header[class*="sticky"][class*="h-14"],
+html.svodka-in-shell header[class*="sticky"][class*="h-16"],
+html.svodka-in-shell header[class*="fixed"][class*="h-14"],
+html.svodka-in-shell header[class*="fixed"][class*="top-0"] {
+  display: none !important;
+}
+html.svodka-in-shell main.pt-14,
+html.svodka-in-shell main[class*="pt-14"] {
+  padding-top: 0 !important;
+}
+</style>
+<script data-svodka-shell>
+(function () {
+  try {
+    if (new URLSearchParams(location.search).get("shell") !== "1") return;
+    document.documentElement.classList.add("svodka-in-shell");
+    function strip() {
+      document.querySelectorAll("aside").forEach(function (el) {
+        var cls = el.className || "";
+        if (/fixed|w-64|sidebar|h-full/.test(cls) || el.getAttribute("aria-label") === "sidebar") {
+          el.style.setProperty("display", "none", "important");
+        }
+      });
+      document.querySelectorAll("header").forEach(function (el) {
+        var cls = el.className || "";
+        if (/sticky|fixed/.test(cls) && /h-14|h-16|top-0|backdrop/.test(cls)) {
+          el.style.setProperty("display", "none", "important");
+        }
+      });
+      document.querySelectorAll(".ml-64, .ml-72, [class*='ml-64'], [class*='ml-72'], .pl-64, .pl-72, [class*='pl-64'], [class*='pl-72']").forEach(function (el) {
+        el.style.setProperty("margin-left", "0", "important");
+        el.style.setProperty("padding-left", "0", "important");
+      });
+      document.querySelectorAll("[style*='padding-left']").forEach(function (el) {
+        if (/16rem|18rem|256px|288px|var\(--sidebar/i.test(el.getAttribute("style") || "")) {
+          el.style.setProperty("padding-left", "0", "important");
+          el.style.setProperty("margin-left", "0", "important");
+        }
+      });
+      document.querySelectorAll("main").forEach(function (el) {
+        el.style.setProperty("margin-left", "0", "important");
+        el.style.setProperty("max-width", "100%", "important");
+        el.style.removeProperty("padding-left");
+        // Только компенсация sticky-хедера (pt-14), не трогаем обычный p-8
+        var cls = el.className || "";
+        if (/\bpt-14\b/.test(cls) || /pt-\[/.test(cls)) {
+          el.style.setProperty("padding-top", "0", "important");
+        }
+      });
+    }
+    strip();
+    setTimeout(strip, 50);
+    setTimeout(strip, 300);
+  } catch (e) {}
+})();
+</script>
+</body></html>
